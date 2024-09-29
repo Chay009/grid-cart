@@ -64,7 +64,7 @@ export default function Appbar() {
                 className="button-nav"
                 style={{ width: "90px" }}
                 onClick={() => {
-                  navigate("/courses");
+                  navigate("/products");
                 }}
               >
                 All Products
@@ -75,7 +75,7 @@ export default function Appbar() {
                 style={{ width: "150px" }}
                 className="button-nav"
                 onClick={() => {
-                  navigate("/courses/purchased");
+                  navigate("/products/purchased");
                 }}
               >
                 Purchased Products

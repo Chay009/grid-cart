@@ -3,7 +3,7 @@ import { Card, Skeleton, Typography } from "@mui/material";
 import "../index.css";
 import { atom, useRecoilState } from "recoil";
 import axios from "axios";
-import CourseCard from "./CourseCard";
+import CourseCard from "./ProductCard";
 import "./courseStyle.css";
 
 const productState = atom({
@@ -11,10 +11,10 @@ const productState = atom({
   default: [],
 });
 
-function ShowCourses() {
+function ShowProducts() {
   
-  const [courses, setCourses] = useRecoilState(productState);
-  console.log(courses[0]?.productId)
+  const [products, setProducts] = useRecoilState(productState);
+  console.log(products[0]?.productId)
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function ShowCourses() {
         },
       })
       .then((res) => {
-        setCourses(res.data.products);
+        setProducts(res.data.products);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -67,8 +67,8 @@ function ShowCourses() {
           </div>
         ) : (
           <>
-            {courses.length > 0 ? (
-              courses.map((product) => (
+            {products.length > 0 ? (
+              products.map((product) => (
                 <CourseCard key={product.productId} product={product} />
               ))
             ) : (
@@ -84,4 +84,4 @@ function ShowCourses() {
   );
 }
 
-export default ShowCourses;
+export default ShowProducts;

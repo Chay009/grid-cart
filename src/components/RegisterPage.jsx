@@ -44,8 +44,8 @@ function RegisterPage() {
       localStorage.setItem("userId", data.userId);
       console.log(data.userId);
 
-      // Navigate to the courses page
-      navigate("/courses");
+      // Navigate to the products page
+      navigate("/products");
     } catch (error) {
       console.error("Error during signup:", error);
       // Handle errors as needed

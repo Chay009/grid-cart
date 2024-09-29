@@ -4,9 +4,9 @@ import LandingPage from './components/LandingPage';
 import { RecoilRoot } from 'recoil';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
-import ShowCourses from './components/ShowCourses';
-import Courses from './components/CoursePage';
-import PurchasedCourses from './components/Purchased';
+import ShowProducts from './components/ShowProducts';
+import Products from './components/ProductPage';
+import PurchasedProducts from './components/Purchased';
 import Appbar from './components/Appbar';
 import backgroundImg from "/Background.svg"
 import { Call } from './components/Call';
@@ -35,9 +35,9 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element= {<LoginPage />}/>
         <Route path="/register" element={<RegisterPage />} />
-         <Route path ="/courses" element = {<ShowCourses />} />
-         <Route path ="/courses/:productId" element ={<Courses />} />
-         <Route path ="/courses/purchased" element ={<PurchasedCourses />} />
+         <Route path ="/products/purchased" element ={<PurchasedProducts />} />
+         <Route path ="/products/:productId" element ={<Products />} />
+         <Route path ="/products" element = {<ShowProducts />} />
          <Route path ="/contact/sellers" element ={<SellersList/>} />
          <Route path ="/contact/seller/:sellername/:sellerId" element ={<Call/>} />
        

@@ -51,7 +51,7 @@ function LoginPage() {
       setMessage("");
       toast.success(res.data.message);
       setIsLoading(false);
-      navigate("/courses");
+      navigate("/products");
     } catch (err) {
       console.log(err);
       setMessage(err.response.data.message);
@@ -70,7 +70,7 @@ function LoginPage() {
         username: userEmail.split("@")[0].toUpperCase(),
         isLoggedIn: true,
       });
-      navigate("/courses");
+      navigate("/products");
     }
   }, [setUserRecoil, navigate]);
 

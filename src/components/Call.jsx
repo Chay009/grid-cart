@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { createClient, LiveTranscriptionEvents } from "@deepgram/sdk";
 import { useParams } from "react-router-dom";
 import { AudioLines, Check, Mic, MicOff, Phone, PhoneOff, Search, X } from "lucide-react";
 import useAudioManager from "../hooks/useAudioManager";
-import { useQueue } from "@uidotdev/usehooks";
+
 import useMicrophoneToggle from "../hooks/useMicrophoneToggle";
 import { toast } from "react-hot-toast";
 const DEFAULT_STT_MODEL = 'nova-2';

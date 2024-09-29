@@ -1,61 +1,56 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { CircularProgress, Skeleton, Typography } from "@mui/material";
-import "./courseStyle.css";
-import CourseCard from "./CourseCard";
+import CourseCard from "./ProductCard";
 
-function PurchasedCourses() {
- 
+function PurchasedProducts() {
   const [purchasedProducts, setPurchasedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-const userId=localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
+
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:2424/users/purchasedProducts/${userId}`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
+    axios
+      .get(`http://localhost:2424/users/purchasedProducts/${userId}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
       .then((res) => {
         setPurchasedProducts(res.data.purchasedProducts);
-        console.log("data.purchasedProducts", res.data.purchasedProducts);
         setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
       });
-  }, []);
+  }, [userId]);
 
   return (
-    <div>
-      <Typography
-        variant="h4"
-        component="div"
-        style={{
-          flexGrow: 1,
-          padding: "10px",
-          borderRadius: "4px",
-          fontWeight: "600",
-          color: "whitesmoke",
-          textAlign: "center",
-          marginTop: "70px",
-        }}
-      >
+    <div className="container mx-auto px-4">
+      <h1 className="text-4xl font-bold text-center text-white bg-blue-600 rounded-lg shadow-lg p-6 mt-16">
         Purchased Products
-      </Typography>
-      <div className="all-courses">
+      </h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
         {isLoading ? (
-           <div style={{ display: "flex", justifyContent: "center", marginTop: "200px" }}>
-           <CircularProgress  color="secondary"/>
-         </div>
+          <div className="flex justify-center items-center w-full">
+            <div className="loader border-t-transparent border-4 border-blue-500 rounded-full w-16 h-16 animate-spin"></div>
+          </div>
         ) : (
           <>
-            {purchasedProducts.length > 0
-              ? purchasedProducts.map((purchasedProduct) => (
-                  <CourseCard key={purchasedProduct.productId} product={purchasedProduct} />
-                ))
-              : <h2 style={{color:"white"}}>No course has yet been bought!</h2>}
+            {purchasedProducts.length > 0 ? (
+              purchasedProducts.map((purchasedProduct) => (
+         
+                <div key={purchasedProduct.productId} className="flex justify-center">
+                <CourseCard product={purchasedProduct} />
+              </div>
+             
+              ))
+            ) : (
+              <h2 className="text-xl text-white text-center col-span-1 sm:col-span-2 lg:col-span-3">
+                No course has yet been bought!
+              </h2>
+            )}
           </>
         )}
       </div>
@@ -63,4 +58,4 @@ const userId=localStorage.getItem("userId");
   );
 }
 
-export default PurchasedCourses;
+export default PurchasedProducts;
