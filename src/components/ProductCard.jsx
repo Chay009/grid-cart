@@ -8,12 +8,12 @@ function ProductCard(props) {
 
   return (
     <div
-      className={`bg-white border w-96 border-gray-200 rounded-lg overflow-hidden shadow-md m-4 p-6 transform transition-transform duration-300 ease-out ${
+      className={` bg-white border w-80  border-gray-200 rounded-lg overflow-hidden shadow-md m-4 p-6 transform transition-transform duration-300 ease-out ${
         isMouseOver ? "shadow-2xl scale-105" : "shadow-md scale-100"
       } cursor-pointer hover:border-purple-500`}
       onMouseOver={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}
-      onClick={() => navigate(`/products/${props.product.productId}`)}
+      onClick={() => localStorage.getItem('email')&&navigate(`/products/${props.product.productId}`)}
     >
       {/* Product Image */}
       <div className="relative mb-5 h-64 flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-300 rounded-lg overflow-hidden">
@@ -54,9 +54,9 @@ function ProductCard(props) {
 
         {/* View Details Button */}
         <button
-          className="mt-4 bg-purple-700 text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-purple-800 transition-all duration-300 ease-in-out"
+          className={`mt-4 ${localStorage.getItem('email')? "bg-purple-700  hover:bg-purple-800":"bg-gray-500  hover:bg-gray-600"} text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 ease-in-out`}
         >
-          View Details
+          {localStorage.getItem('email')?"View Details":"You need to Login for view details"}
         </button>
       </div>
     </div>

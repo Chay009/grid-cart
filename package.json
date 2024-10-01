@@ -1,5 +1,5 @@
 {
-  "name": "coursera",
+  "name": "gridkart",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,10 +11,6 @@
   },
   "dependencies": {
     "@deepgram/sdk": "^3.6.0",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.18",
-    "@mui/material": "^5.14.18",
     "@ricky0123/vad-react": "^0.0.24",
     "@ricky0123/vad-web": "^0.0.18",
     "@uidotdev/usehooks": "^2.4.1",

@@ -1,6 +1,3 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { Card, Typography, CircularProgress } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -26,13 +23,10 @@ function LoginPage() {
     try {
       setIsLoading(true); // Set loading to true before making the request
 
-      const res = await axios.post(
-        "http://localhost:2424/users/login",
-        {
-          username: user.email,
-          password: user.password,
-        }
-      );
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/users/login`, {
+        username: user.email,
+        password: user.password,
+      });
 
       // Update Recoil state atomically
       set(userState, (prev) => ({
@@ -55,6 +49,7 @@ function LoginPage() {
     } catch (err) {
       console.log(err);
       setMessage(err.response.data.message);
+      toast.error(err.response.data.message);
       setIsLoading(false);
     }
   });
@@ -75,85 +70,57 @@ function LoginPage() {
   }, [setUserRecoil, navigate]);
 
   return (
-    <div>
-      <div
-        style={{
-          paddingTop: 60,
-          marginBottom: 10,
-          display: "flex",
-          justifyContent: "center",
-          color: "white",
-        }}
-      >
-        <Typography
-          variant="h6"
-          style={{
-            color: "white",
-            fontFamily: "cursive",
-            cursor: "pointer",
-            fontSize: "16px",
-          }}
-        >
-          Welcome to CourseHub. Signin Below..
-        </Typography>
-      </div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Card
-          className="cardstyle"
-          variant="outlined"
-          sx={{ width: "250px", height: "270px" }}
-        >
-          <TextField
-            onChange={(e) =>
-              setUser((prev) => ({ ...prev, email: e.target.value }))
-            }
-            fullWidth={true}
-            label="Email"
-            variant="outlined"
-          />
-          <br />
-          <br />
-          <TextField
-            onChange={(e) =>
-              setUser((prev) => ({ ...prev, password: e.target.value }))
-            }
-            fullWidth={true}
-            label="Password"
-            variant="outlined"
-            type="password"
-          />
-          <br />
-          <br />
-          {isLoading ? (
-            <CircularProgress
-              size={35}
-              style={{ color: "black", marginLeft: "18px" }}
-            />
-          ) : (
-            <button
-              className="button-nav"
-              onClick={handleLogin}
-              disabled={isLoading} // Disable button while loading
-              variant="contained"
-            >
-              Signin
-            </button>
-          )}
-          <br></br>
-          <br></br>
-          <div>
-            <h3 style={{ fontWeight: "600" }}>
-              New here? Click here to register a new account.
-            </h3>
-            <br />
-            <button
-              className="button-nav"
-              onClick={() => navigate("/register")}
-            >
-              Signup
-            </button>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+    <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+      <div className="text-center mb-6">
+      <h2 className="text-2xl font-bold text-gray-800">
+            Welcome to CourseHub
+          </h2>
+          <p className="text-gray-600">Sign in Below</p>
+        </div>
+        <input
+          type="email"
+          className="text-black w-full p-3 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Email"
+          onChange={(e) =>
+            setUser((prev) => ({ ...prev, email: e.target.value }))
+          }
+        />
+        <input
+          type="password"
+          className="text-black w-full  p-3 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Password"
+          onChange={(e) =>
+            setUser((prev) => ({ ...prev, password: e.target.value }))
+          }
+        />
+        {isLoading ? (
+          <div className="flex justify-center mb-4">
+            <div className="w-8 h-8 border-4 border-t-4 border-gray-400 rounded-full animate-spin"></div>
           </div>
-        </Card>
+        ) : (
+          <button
+            className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-300 disabled:bg-gray-400"
+            onClick={handleLogin}
+            disabled={isLoading} // Disable button while loading
+          >
+            Sign in
+          </button>
+        )}
+        {message && (
+          <p className="mt-4 text-sm text-center text-red-600">{message}</p>
+        )}
+        <div className="mt-6 text-center">
+          <h3 className="font-semibold text-gray-700">
+            New here? Click below to register a new account.
+          </h3>
+          <button
+            className="w-full mt-4 px-4 py-3 text-white bg-green-600 rounded-md hover:bg-green-700 transition duration-300"
+            onClick={() => navigate("/register")}
+          >
+            Sign up
+          </button>
+        </div>
       </div>
     </div>
   );

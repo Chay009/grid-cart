@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, Skeleton, Typography } from "@mui/material";
+
 import "../index.css";
 import { atom, useRecoilState } from "recoil";
 import axios from "axios";
-import CourseCard from "./ProductCard";
-import "./courseStyle.css";
+import ProductCard from "./ProductCard";
+
 
 const productState = atom({
   key: "productState",
@@ -20,7 +20,7 @@ function ShowProducts() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("http://localhost:2424/users/get-all-products/", {
+      .get(`${import.meta.env.VITE_SERVER_URL}/users/get-all-products/`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -35,53 +35,33 @@ function ShowProducts() {
       });
   }, []);
 
-  return (
-    <div>
-      <Typography
-        variant="h4"
-        style={{
-          padding: "10px",
-          borderRadius: "4px",
-          fontWeight: "bold",
-          color: "whitesmoke",
-          textAlign: "center",
-          fontSize: "25px",
-          marginBottom: "10px",
-        }}
-      >
-        All Products
-      </Typography>
-      {/* <Card
-      // style={{
-      //   margin: 10,
-      //   width: 1000,
-      //   minHeight: 100,
-      // }}
-    >     */}
-      <div className="all-courses">
-        {isLoading ? (
-          <div style={{ display: "flex", gap: "20px" }}>
-            <Skeleton variant="rectangular" width={345} height={400} />
-            <Skeleton variant="rectangular" width={345} height={400} />
-            <Skeleton variant="rectangular" width={345} height={400} />
-          </div>
+ return (
+  <div className="container mx-auto px-4">
+    <h1 className="text-4xl font-bold text-center text-white bg-blue-600 rounded-lg shadow-lg p-6 mt-16">
+     All Products
+    </h1>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 my-8">
+      {isLoading ? (
+        <div className="flex justify-center items-center w-full">
+          <div className="loader border-t-transparent border-4 border-blue-500 rounded-full w-16 h-16 animate-spin"></div>
+        </div>
+      ) : (
+        <>
+        {products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard key={product.productId} product={product} />
+          ))
         ) : (
-          <>
-            {products.length > 0 ? (
-              products.map((product) => (
-                <CourseCard key={product.productId} product={product} />
-              ))
-            ) : (
-              <h2 sx={{ color: "white" }}>
-                "Oops! No course is currently offered. Return later!"
-              </h2>
-            )}
-          </>
+          <h2 sx={{ color: "white" }}>
+            "Oops! No course is currently offered. Return later!"
+          </h2>
         )}
-      </div>
-      {/* </Card> */}
+      </>
+      )}
     </div>
-  );
+  </div>
+);
 }
 
 export default ShowProducts;

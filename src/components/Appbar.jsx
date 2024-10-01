@@ -1,204 +1,118 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../store/atoms/user";
-// import { userEmailState } from "../store/selectors/userEmailState";
-// import { userLoggedInState } from "../store/selectors/userIsLoggedIn";
-import Typography from "@mui/material/Typography";
 import { userEmailState } from "../store/selectors/userEmailState";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
+import { CircleUserRound, Headset, ShoppingBasket, Store } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Appbar() {
-  // const userLoading = useRecoilValue(userLoggedInState)
   const userEmail = useRecoilValue(userEmailState);
-  // const setUser = useRecoilState(userState)
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const avatarRef = useRef(null);
 
-  // if(userLoading){
-  //   return<div>
-  //     <h1>loading</h1>
-  //   </div>
-  // }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("email");
+    setUser({
+      email: "",
+      password: "",
+      username: "",
+      isLoggedIn: false,
+    });
+    setShowDropdown(false);
+    navigate("/");
+  };
 
-  if (userEmail || user.Email) {
-    return (
+  const handleAvatarClick = () => {
+    setShowDropdown((prev) => !prev);
+  };
+
+  // Hide dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (avatarRef.current && !avatarRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="top-0 left-0 w-full flex items-center justify-between p-4 bg-sky-800 shadow-lg z-50">
       <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: 4,
-          zIndex: 1,
-          marginTop: "8px",
-          // background: "rgba(255, 255, 255, 0.5)"
-        }}
+        className="flex items-center cursor-pointer ml-4"
+        onClick={() => navigate("/")}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: 10,
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          <Typography
-            style={{ color: "white", fontFamily: "Kaushan Script" }}
-            onClick={() => {
-              navigate("/");
-            }}
-            variant={"h6"}
-          >
-            CourseHub
-          </Typography>
-        </div>
-        <div style={{ display: "flex" }}>
-          <div style={{ marginRight: 10, display: "flex" }}>
-            <div style={{ marginRight: 10 }}>
-              <button
-                className="button-nav"
-                style={{ width: "90px" }}
-                onClick={() => {
-                  navigate("/products");
-                }}
-              >
-                All Products
-              </button>
-            </div>
-            <div style={{ marginRight: 10 }}>
-              <button
-                style={{ width: "150px" }}
-                className="button-nav"
-                onClick={() => {
-                  navigate("/products/purchased");
-                }}
-              >
-                Purchased Products
-              </button>
-            </div>
-
-            <div>
-              <button
-                variant={"contained"}
-                style={{width:"90px",height:"35px"}}
-                className="button-btn"
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  localStorage.removeItem("isLoggedIn");
-                  localStorage.removeItem("email");
-                  setUser({
-                    email: "",
-                    password: "",
-                    username: "",
-                    isLoggedIn: false,
-                  });
-                  navigate("/");
-                }}
-              >
-                Logout
-              </button>
-            </div>
-            <div
-              style={{
-                marginRight: "10px",
-                marginTop: "-5px",
-                marginLeft: "-5px",
-              }}
-            >
-               <Tooltip
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      bgcolor: "common.black",
-                      "& .MuiTooltip-arrow": {
-                        color: "purple",
-                      },
-                      fontSize: "15px",
-                      border: "2px solid #601b99",
-                      padding: "5px",
-                    },
-                  },
-                }}
-                style={{ padding: "7px" }}
-                title={userEmail}
-              >
-                <IconButton>
-                  <Avatar
-                    style={{
-                      color: "purple",
-                      backgroundColor: "whitesmoke",
-                      width: "35px",
-                      height: "35px",
-                      marginLeft:"-5px"
-                    }}
-                    src="/broken-image.jpg"
-                  />
-                </IconButton>
-              </Tooltip>
-            </div>
-          </div>
-        </div>
+        <h1 className="text-white font-bold text-2xl md:text-3xl">Gridkart</h1>
       </div>
-    );
-  }
 
-  if (!userEmail) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "10px",
-          zIndex: 1,
-          overflow: "auto",
-          marginLeft: "20px",
-          marginRight: "20px",
-          marginTop: "8px",
-        }}
-      >
-        <div>
-          <Typography
-            style={{
-              color: "white",
-              fontFamily: "Kaushan Script",
-              cursor: "pointer",
-            }}
-            onClick={() => {
-              navigate("/");
-            }}
-            variant="h5"
-          >
-            CourseHub
-          </Typography>
-        </div>
-        <div style={{ display: "flex" }}>
-          <div style={{ marginRight: 10 }}>
+      <div className="flex  items-center gap-2 mr-4">
+        {userEmail || user?.Email ? (
+          <>
             <button
-              className="button-nav"
-              onClick={() => {
-                navigate("/register");
-              }}
+              className="bg-orange-500 text-white w-10 h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-yellow-700 transition duration-300"
+              onClick={() => navigate("/contact/sellers")}
             >
-              Signup
+              <Headset className="mr-0 sm:mr-2" />
+              <span className="hidden sm:inline">Sellers</span>
             </button>
-          </div>
-          <div>
+
             <button
-              className="button-nav"
-              onClick={() => {
-                navigate("/login");
-              }}
+              className="bg-pink-600 text-white w-10 h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-pink-700 transition duration-300"
+              onClick={() => navigate("/products/purchased")}
             >
-              Signin
+              <ShoppingBasket className="mr-0 sm:mr-2" />
+              <span className="hidden sm:inline">Purchased</span>
             </button>
-          </div>
-        </div>
+
+            <div className="relative" ref={avatarRef}>
+              <div
+                className="w-10 h-10 bg-gradient-to-tr from-orange-300 to-red-500 rounded-full flex items-center justify-center text-white text-lg font-semibold cursor-pointer"
+                onClick={handleAvatarClick}
+              >
+                {localStorage.getItem("email")[0].toUpperCase()}
+              </div>
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                  <div className="px-4 py-2 text-gray-800 font-medium">
+                    {localStorage.getItem("email")}
+                  </div>
+                  <button
+                    className="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 transition duration-200"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <button
+              className="bg-blue-600 text-white w-10 h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-blue-700 transition duration-300"
+              onClick={() => navigate("/login")}
+            >
+              <CircleUserRound className="mr-0 sm:mr-2" />
+              <span className="hidden sm:inline">Signin</span>
+            </button>
+
+            <button
+              className="bg-orange-600 text-white w-10 h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-orange-700 transition duration-300"
+              onClick={() => navigate("/login")}
+            >
+              <Store className="mr-0 sm:mr-2" />
+              <span className="hidden sm:inline">Seller</span>
+            </button>
+          </>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 }

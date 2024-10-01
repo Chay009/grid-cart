@@ -7,6 +7,7 @@ import { createClient, LiveTranscriptionEvents } from "@deepgram/sdk";
 import { useParams } from "react-router-dom";
 import { AudioLines, Check, Mic, MicOff, Phone, PhoneOff, Search, X } from "lucide-react";
 import useAudioManager from "../hooks/useAudioManager";
+import { useNavigate } from "react-router-dom";
 
 import useMicrophoneToggle from "../hooks/useMicrophoneToggle";
 import { toast } from "react-hot-toast";
@@ -24,10 +25,11 @@ const defaultSttsOptions = {
   language: "en-US",
 };
 
-export const Call = () => {
+ const Call = () => {
   const { sellerId, sellername } = useParams();
   const userId = localStorage.getItem("userId");
-
+  
+  const navigate = useNavigate();
 
   const [deepgramApiKey, setDeepgramApiKey] = useState(null);
   const [connection, setConnection] = useState(null);
@@ -44,12 +46,12 @@ export const Call = () => {
   const { QueueToPlayAudio,isBotSpeaking} = useAudioManager();
 // the diff between bot listening and listening not figure out yet
 const {
-microphoneToggle,queueSize,removeBlob,firstBlob,microphoneOpen
+microphoneToggle,queueSize,removeBlob,firstBlob,microphoneOpen,handleStop
 } = useMicrophoneToggle();
 
   useEffect(() => {
     if (!deepgramApiKey) {
-      axios.get("http://localhost:2424/auth/deepgram")
+      axios.get(`${import.meta.env.VITE_SERVER_URL}/auth/deepgram`)
         .then((response) => {
           if (response.data.api_key) {
             setDeepgramApiKey(response.data.api_key);
@@ -68,7 +70,7 @@ microphoneToggle,queueSize,removeBlob,firstBlob,microphoneOpen
         const deepgram = createClient(deepgramApiKey);
         const deepgram_connection = deepgram.listen.live(defaultSttsOptions);
         
-  
+  // on clicking the kep alice interval should stop
         if (keepAlive) clearInterval(keepAlive);
         keepAlive = setInterval(() => {
           console.log("KeepAlive sent.");
@@ -110,7 +112,7 @@ toast.success("Connection established, bot listening")
                 
   
                 return axios.post(
-                  "http://localhost:2424/stream/voice",
+                  `${import.meta.env.VITE_SERVER_URL}/stream/voice`,
                   {
                     text: serverResponse || "",
                     params: { model: "aura-perseus-en" },
@@ -280,7 +282,13 @@ toast.success("Connection established, bot listening")
         {/* End Call Button */}
         <button 
           className="flex items-center justify-center w-16 h-16 bg-red-500 hover:bg-red-600 transition-colors duration-300 rounded-full shadow-lg hover:scale-105" 
-          onClick={() => console.log("End call")}
+          onClick={() => {
+           handleStop(); 
+            // navigate('/contact/sellers')
+            toast.error("call ended")
+            clearInterval(keepAlive) 
+
+          }}
         >
           <Phone size={32} />
         </button>
@@ -289,5 +297,5 @@ toast.success("Connection established, bot listening")
     </div>
   );
   
-  
-   };
+};
+export default Call

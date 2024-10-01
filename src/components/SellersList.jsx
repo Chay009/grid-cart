@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PhoneCall } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -19,7 +20,7 @@ const SellersList = () => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("http://localhost:2424/getsellers")
+      .get(`${import.meta.env.VITE_SERVER_URL}/getsellers`)
       .then((res) => {
         console.log(res.data.sellers);
         setSellers(res.data.sellers);
@@ -36,7 +37,7 @@ const SellersList = () => {
     <h1 className="text-4xl font-bold text-center mb-12 text-gray-900">
       User Directory
     </h1>
-    <div className="grid  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 ">
+    <div className="grid  md:grid-cols-2 lg:grid-cols-3   gap-6 ">
       {sellers?.map((seller) => (
         <div
           key={seller.sellerId}
@@ -60,8 +61,9 @@ const SellersList = () => {
             </p>
           </div>
             <Link to={`/contact/seller/${seller.sellername}/${seller.sellerId}`}>
-          <button className="mt-6 w-full py-2 px-4 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition-colors duration-200">
-            View Profile
+          <button className="flex items-center justify-center mt-6 w-full py-2 px-4 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors duration-200">
+          <PhoneCall className="mr-2" />
+            Call
           </button>
             </Link>
         </div>

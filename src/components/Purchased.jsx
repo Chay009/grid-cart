@@ -10,7 +10,7 @@ function PurchasedProducts() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:2424/users/purchasedProducts/${userId}`, {
+      .get(`${import.meta.env.VITE_SERVER_URL}/users/purchasedProducts/${userId}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
