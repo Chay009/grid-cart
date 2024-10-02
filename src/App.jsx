@@ -3,7 +3,7 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import LandingPage from './components/LandingPage';
+
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import ShowProducts from './components/ShowProducts';
