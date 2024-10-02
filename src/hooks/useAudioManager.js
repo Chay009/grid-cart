@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useMicVAD } from "@ricky0123/vad-react";
+
 import { useQueue } from "@uidotdev/usehooks";
 import { useNowPlaying } from "react-nowplaying";
 
@@ -25,12 +25,7 @@ function useAudioManager() {
     }
   }, [audioQueue]);
 
-  const { listening } = useMicVAD({
-    onSpeechStart,
-    onSpeechEnd,
-    positiveSpeechThreshold: 0.6,
-    negativeSpeechThreshold: 0.6 - 0.15,
-  });
+
 
   const playNextAudio = useCallback(async (audioData) => {
     console.log(audioData);
