@@ -102,7 +102,7 @@ toast.success("Connection established, bot listening")
               
              
              let serverResponse=
-              axios.post(`http://localhost:8000/brain/${userId}/${sellername}/${sellerId}`, { 
+              axios.post(`${import.meta.env.VITE_VOICE_AGENT_URL}/brain/${userId}/${sellername}/${sellerId}`, { 
                 messages: [{ role: "user", content: caption }] 
               })
               .then((response) => {
@@ -184,7 +184,7 @@ toast.success("Connection established, bot listening")
 
 
   return (
-    <div className="w-screen h-screen bg-gray-900 text-white overflow-hidden flex flex-col">
+    <div className="w-screen h-screen bg-gray-900 text-white flex flex-col">
       {/* Status bar */}
       <div className="flex items-center justify-between px-4 py-2">
         {/* Add any additional status bar elements here */}

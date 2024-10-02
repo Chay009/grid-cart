@@ -48,7 +48,7 @@ function PurchasedProducts() {
               ))
             ) : (
               <h2 className="text-xl text-white text-center col-span-1 sm:col-span-2 lg:col-span-3">
-                No course has yet been bought!
+                No Product has yet been bought!
               </h2>
             )}
           </>

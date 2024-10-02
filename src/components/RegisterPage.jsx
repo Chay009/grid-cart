@@ -16,7 +16,7 @@ function RegisterPage() {
     try {
       setLoading(true); // Set loading to true during signup
 
-      const res = await axios.post(`${import.meta.env.VITE_SERVER_UR}L/users/signup`, {
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/users/signup`, {
         username: email,
         password: password,
       });

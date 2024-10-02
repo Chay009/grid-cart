@@ -2,7 +2,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../store/atoms/user";
 import { userEmailState } from "../store/selectors/userEmailState";
-import { CircleUserRound, Headset, ShoppingBasket, Store } from "lucide-react";
+import { CircleUserRound,  PhoneCall,  ShoppingBasket, Store } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export default function Appbar() {
@@ -56,19 +56,19 @@ export default function Appbar() {
         {userEmail || user?.Email ? (
           <>
             <button
-              className="bg-orange-500 text-white w-10 h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-yellow-700 transition duration-300"
+              className="bg-green-600 text-white  h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-green-700 transition duration-300"
               onClick={() => navigate("/contact/sellers")}
             >
-              <Headset className="mr-0 sm:mr-2" />
-              <span className="hidden sm:inline">Sellers</span>
+              <PhoneCall className="mr-2 w-5 h-5" />
+             Sellers
             </button>
 
             <button
-              className="bg-pink-600 text-white w-10 h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-pink-700 transition duration-300"
+              className="bg-pink-600 text-white h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-pink-700 transition duration-300"
               onClick={() => navigate("/products/purchased")}
             >
-              <ShoppingBasket className="mr-0 sm:mr-2" />
-              <span className="hidden sm:inline">Purchased</span>
+              <ShoppingBasket />
+              <span className=" hidden sm:inline">Purchased</span>
             </button>
 
             <div className="relative" ref={avatarRef}>
@@ -96,21 +96,21 @@ export default function Appbar() {
         ) : (
           <>
             <button
-              className="bg-blue-600 text-white w-10 h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-blue-700 transition duration-300"
+              className="bg-yellow-600 text-white  h-10  px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-blue-700 transition duration-300"
               onClick={() => navigate("/login")}
             >
-              <CircleUserRound className="mr-0 sm:mr-2" />
-              <span className="hidden sm:inline">Signin</span>
+              <CircleUserRound className="mr-2 w-5 h-5" />
+              Login
             </button>
 
             <button
-              className="bg-orange-600 text-white w-10 h-10 sm:w-auto sm:h-auto px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-orange-700 transition duration-300"
+              className="bg-orange-600 text-white  h-10  px-2 sm:px-4 py-2 rounded flex items-center justify-center hover:bg-orange-700 transition duration-300"
               onClick={() => navigate("/login")}
             >
-              <Store className="mr-0 sm:mr-2" />
-              <span className="hidden sm:inline">Seller</span>
+              <Store className="mr-2 w-5 h-5" />
+              Seller
             </button>
-          </>
+          </> 
         )}
       </div>
     </div>

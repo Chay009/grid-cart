@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function ProductCard(props) {
@@ -53,11 +53,21 @@ function ProductCard(props) {
         </p>
 
         {/* View Details Button */}
+      { localStorage.getItem('email')? (<button
+         className="bg-purple-500  hover:bg-purple-600 text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 ease-in-out"
+        > View Details
+        </button>)
+
+        :(
+          <Link to="/login">
         <button
-          className={`mt-4 ${localStorage.getItem('email')? "bg-purple-700  hover:bg-purple-800":"bg-gray-500  hover:bg-gray-600"} text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 ease-in-out`}
-        >
-          {localStorage.getItem('email')?"View Details":"You need to Login for view details"}
+          className="bg-gray-500  hover:bg-gray-600 text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 ease-in-out"
+          >
+       Login for More Info
         </button>
+          </Link>
+        )
+        }
       </div>
     </div>
   );
