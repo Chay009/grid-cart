@@ -230,12 +230,12 @@ toast.success("Connection established, bot listening")
           <div className="relative  z-10">
 
 
-            <Siriwave
+            {/* <Siriwave
               theme="ios9"
               amplitude={isBotSpeaking ? 5 : 0.5}
               speed={isBotSpeaking ? 0.2 : 0.1}
               autostart={isBotSpeaking}
-            />
+            /> */}
           </div>
         </div>
               {/* Status Badges */}
